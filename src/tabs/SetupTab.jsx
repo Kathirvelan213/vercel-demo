@@ -2,6 +2,40 @@ function SetupTab() {
   return (
     <div>
       <section className="section">
+        <h2 className="section-title">What is React?</h2>
+        <p className="section-description">
+          <strong>React</strong> is a JavaScript library created by Meta (formerly Facebook) for building user interfaces with reusable components.
+          It makes it easy to create interactive, dynamic web applications by managing how your app's data and UI stay in sync.
+        </p>
+      </section>
+
+      <section className="section">
+        <h2 className="section-title">What is npm?</h2>
+        <p className="section-description">
+          <strong>npm</strong> (Node Package Manager) is the world's largest software package repository. 
+          It comes with Node.js and lets you install, manage, and share packages (libraries and tools) for your JavaScript projects.
+        </p>
+        
+      </section>
+
+      <section className="section">
+        <h2 className="section-title">What is Vite?</h2>
+        <p className="section-description">
+          <strong>Vite</strong> (French for "fast") is a modern build tool and development server that makes React development incredibly fast.
+          Instead of bundling your entire project every time you make a change, Vite uses modern browser features to serve your code instantly.
+        </p>
+        <div className="concept-card info">
+          <h3>Why Choose Vite?</h3>
+          <ul className="feature-list">
+            <li>⚡ Lightning-fast Hot Module Replacement (HMR) — see changes instantly</li>
+            <li>⚙️ Minimal configuration — works out of the box</li>
+            <li>📦 Built-in support for React, TypeScript, CSS, and more</li>
+            <li>🚀 Optimized production builds with Rollup</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="section">
         <h2 className="section-title">Prerequisites</h2>
         <p className="section-description">
           Before we can start building with React, we need a few things installed on our machine.
@@ -31,7 +65,7 @@ node --version
       <section className="section">
         <h2 className="section-title">Creating a React Project with Vite</h2>
         <p className="section-description">
-          Vite (French for "fast") is a modern build tool that makes React development blazingly fast.
+          Now that you understand the tools, let's create your first React project using Vite and npm.
         </p>
 
         <div className="concept-card info">

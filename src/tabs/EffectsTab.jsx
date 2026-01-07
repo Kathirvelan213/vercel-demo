@@ -1,76 +1,43 @@
 import CodePlayground from '../components/CodePlayground'
 
 function EffectsTab() {
-  const timerExample = {
+  const weatherExample = {
     '/App.js': `import { useState, useEffect } from 'react';
 
 export default function App() {
-  const [seconds, setSeconds] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
+  const [weather, setWeather] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This code runs AFTER the component renders
-    // when isRunning changes
-    
-    if (!isRunning) return;  // Don't start timer if paused
-
-    const intervalId = setInterval(() => {
-      setSeconds(s => s + 1);
-    }, 1000);
-
-    // Cleanup function - runs before next effect or unmount
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [isRunning]);  // Dependency array: re-run when isRunning changes
-
-  const reset = () => {
-    setIsRunning(false);
-    setSeconds(0);
-  };
+    // Fetch weather when component mounts (no API key needed!)
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=51.5074&longitude=-0.1278&current=temperature_2m,weather_code,relative_humidity_2m')
+      .then(res => res.json())
+      .then(data => {
+        setWeather(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);  // Empty dependency array = run once on mount
 
   return (
-    <div style={{ 
-      padding: 40, 
-      fontFamily: 'system-ui',
-      textAlign: 'center' 
-    }}>
-      <h1>Stopwatch Timer ⏱️</h1>
-      <p style={{ 
-        fontSize: 64, 
-        fontWeight: 'bold',
-        color: '#228be6' 
-      }}>
-        {seconds}s
-      </p>
-      <div>
-        <button 
-          onClick={() => setIsRunning(!isRunning)}
-          style={{ 
-            padding: '12px 24px', 
-            fontSize: 16,
-            margin: 8,
-            cursor: 'pointer',
-            background: isRunning ? '#fa5252' : '#40c057',
-            color: 'white',
-            border: 'none',
-            borderRadius: 8
-          }}
-        >
-          {isRunning ? '⏸️ Pause' : '▶️ Start'}
-        </button>
-        <button 
-          onClick={reset}
-          style={{ 
-            padding: '12px 24px', 
-            fontSize: 16,
-            margin: 8,
-            cursor: 'pointer'
-          }}
-        >
-          🔄 Reset
-        </button>
-      </div>
+    <div style={{ padding: 40, fontFamily: 'system-ui', textAlign: 'center' }}>
+      <h1>Current Weather in London 🌤️</h1>
+      
+      {loading ? (
+        <p>Loading weather...</p>
+      ) : weather ? (
+        <div style={{ marginTop: 20 }}>
+          <p style={{ fontSize: 48, fontWeight: 'bold' }}>
+            {Math.round(weather.current.temperature_2m)}°C
+          </p>
+          <p>Humidity: {weather.current.relative_humidity_2m}%</p>
+        </div>
+      ) : (
+        <p>Failed to load weather</p>
+      )}
     </div>
   );
 }`,
@@ -227,41 +194,14 @@ export default function App() {
       </section>
 
       <section className="section">
-        <h2 className="section-title">Example: Timer</h2>
-        <p className="section-description">
-          Let's build a stopwatch using <code className="inline-code">useEffect</code> and <code className="inline-code">setInterval</code>.
-        </p>
-
-        <CodePlayground 
-          files={timerExample} 
-          title="Timer with useEffect"
-        />
-
-        <div className="concept-card">
-          <h3>Effect Structure</h3>
-          <div className="code-block">
-            <code>
-              useEffect(() =&gt; {'{'}{'\n'}
-              {'  '}// Setup: runs after render{'\n'}
-              {'  '}const id = setInterval(...);{'\n'}
-              {'\n'}
-              {'  '}// Cleanup: runs before next effect or unmount{'\n'}
-              {'  '}return () =&gt; clearInterval(id);{'\n'}
-              {'}'}, [dependencies]);  // When to re-run
-            </code>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
         <h2 className="section-title">Example: Fetching Data</h2>
         <p className="section-description">
           The most common use of <code className="inline-code">useEffect</code> is fetching data from an API.
         </p>
 
         <CodePlayground 
-          files={fetchExample} 
-          title="Data fetching with useEffect"
+          files={weatherExample} 
+          title="Fetching weather with useEffect"
         />
 
         <div className="callout tip">

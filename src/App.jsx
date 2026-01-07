@@ -13,7 +13,7 @@ const tabs = [
   { id: 'setup', label: 'Setup', component: SetupTab },
   { id: 'why', label: 'The "Why"', component: WhyReactTab },
   { id: 'jsx', label: 'JSX & Components', component: JSXComponentsTab },
-  { id: 'props', label: 'Props & Composition', component: PropsTab },
+  { id: 'props', label: 'Props', component: PropsTab },
   { id: 'state', label: 'State', component: StateTab },
   { id: 'logic', label: 'Logic & Control', component: LogicControlTab },
   { id: 'effects', label: 'Effects', component: EffectsTab },

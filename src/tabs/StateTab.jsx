@@ -2,6 +2,24 @@ import CodePlayground from '../components/CodePlayground'
 import RevealAnswer from '../components/RevealAnswer'
 
 function StateTab() {
+  // Example for useState import and basic state
+  const addingStateVariableExample = {
+    '/App.js': `import { useState } from 'react';
+
+export default function App() {
+  const [index, setIndex] = useState(0);
+  
+  return (
+    <div>
+      <p>Current index: {index}</p>
+      <button onClick={() => setIndex(index + 1)}>
+        Next
+      </button>
+    </div>
+  );
+}`,
+  }
+
   // This demonstrates WHY normal variables don't work
   const brokenExample = {
     '/App.js': `// ❌ THIS DOESN'T WORK! But why?
@@ -90,68 +108,157 @@ export default function App() {
 }`,
   }
 
-  const multipleStateExample = {
-    '/App.js': `import { useState } from 'react';
-
-export default function App() {
-  // You can have multiple pieces of state!
-  const [name, setName] = useState('');
-  const [age, setAge] = useState(18);
-  const [isStudent, setIsStudent] = useState(false);
-
-  return (
-    <div style={{ 
-      padding: 20, 
-      fontFamily: 'system-ui',
-      maxWidth: 400 
-    }}>
-      <h1>Form with Multiple State</h1>
-      
-      <div style={{ marginBottom: 16 }}>
-        <label>Name: </label>
-        <input 
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{ padding: 8, width: '100%' }}
-        />
-      </div>
-      
-      <div style={{ marginBottom: 16 }}>
-        <label>Age: </label>
-        <input 
-          type="number"
-          value={age}
-          onChange={(e) => setAge(Number(e.target.value))}
-          style={{ padding: 8, width: 100 }}
-        />
-      </div>
-      
-      <div style={{ marginBottom: 16 }}>
-        <label>
-          <input 
-            type="checkbox"
-            checked={isStudent}
-            onChange={(e) => setIsStudent(e.target.checked)}
-          />
-          {' '}Is a student
-        </label>
-      </div>
-      
-      <div style={{ 
-        background: '#f8f9fa', 
-        padding: 16, 
-        borderRadius: 8 
-      }}>
-        <strong>Current State:</strong>
-        <pre>{JSON.stringify({ name, age, isStudent }, null, 2)}</pre>
-      </div>
-    </div>
-  );
-}`,
-  }
+ 
+  
 
   return (
     <div>
+      {/* Render and Commit Cycle Intro */}
+      <section className="section">
+        <h2 className="section-title">How React Updates the Screen</h2>
+        <p className="section-description">
+          When something changes in your React app, React goes through three steps to update what you see on the screen. 
+          Think of it like a restaurant fulfilling an order:
+        </p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, margin: '24px 0' }}>
+          <div className="concept-card info">
+            <h3>1. Triggering a Render</h3>
+            <p>
+              A user does something (clicks a button, types in a form), or props change. This is like <strong>placing a food order at the counter</strong>.
+            </p>
+          </div>
+
+          <div className="concept-card info">
+            <h3>2. Rendering the Component</h3>
+            <p>
+              React calls your component function to figure out what should appear on screen. This is like <strong>the kitchen preparing the food</strong>.
+            </p>
+          </div>
+
+          <div className="concept-card info">
+            <h3>3. Committing to the DOM</h3>
+            <p>
+              React updates the actual HTML on the page. This is like <strong>bringing the finished food to your table</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div style={{ marginBottom: 32 }}>
+          <img 
+            src="/renderAndCommit.png" 
+            alt="React render and commit cycle diagram" 
+            style={{ 
+              maxWidth: '100%', 
+              borderRadius: 12, 
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)' 
+            }}
+          />
+        </div>
+
+        <div className="callout tip">
+          <span className="callout-icon">💡</span>
+          <div>
+            React doesn't update the page every single time your code runs — it batches changes and updates the DOM efficiently. 
+            This is one reason why React is so fast!
+          </div>
+        </div>
+      </section>
+
+      {/* Adding State Variables */}
+      <section className="section">
+        <h2 className="section-title">Adding a State Variable</h2>
+        <p className="section-description">
+          To add a state variable, import <code className="inline-code">useState</code> from React at the top of your file, 
+          then replace a regular variable with a state variable.
+        </p>
+
+      
+
+        {/* Step 2: Import useState */}
+        <div style={{padding:20}}>
+          <h3>Step 1: Import useState</h3>
+          <p>Add this import at the top of your file:</p>
+          <pre style={{ 
+            background: '#f5f5f5', 
+            padding: 12, 
+            borderRadius: 6, 
+            color: '#1f2328',
+            fontFamily: 'Fira Mono, Consolas, monospace',
+            fontSize: 14,
+            lineHeight: 1.6,
+            margin: '12px 0'
+          }}>
+{`import { useState } from 'react';`}
+          </pre>
+          <div className="callout info" style={{marginTop: 12}}>
+            <span className="callout-icon">🎣</span>
+            <div>
+              <strong>What's a Hook?</strong> <code className="inline-code">useState</code> is a special function called a <em>Hook</em>. 
+              Hooks are functions that "hook into" React features. They always start with <code className="inline-code">use</code> 
+              (like <code className="inline-code">useState</code>, <code className="inline-code">useEffect</code>, etc.). 
+              You can only call them at the top level of your component.
+            </div>
+          </div>
+        </div>
+
+        {/* Step 3: Replace with useState */}
+        <div style={{padding:25}}>
+          <h3>Step 2: Replace with useState</h3>
+          <p>Replace the regular variable with <code className="inline-code">useState</code>:</p>
+          <pre style={{ 
+            background: '#f5f5f5', 
+            padding: 12, 
+            borderRadius: 6, 
+            color: '#1f2328',
+            fontFamily: 'Fira Mono, Consolas, monospace',
+            fontSize: 14,
+            lineHeight: 1.6,
+            margin: '12px 0'
+          }}>
+{`const [index, setIndex] = useState(0);`}
+          </pre>
+        </div>
+
+        <div className="concept-card">
+          <h3>What Just Happened?</h3>
+          <ul className="feature-list">
+            <li><code className="inline-code">index</code> — The state variable (current value)</li>
+            <li><code className="inline-code">setIndex</code> — The setter function (call this to update)</li>
+            <li><code className="inline-code">useState(0)</code> — Initialize state with value 0</li>
+          </ul>
+        </div>
+
+        {/* Step 4: Complete example */}
+        <div className="concept-card warning">
+          <h3>Step 3: Use setIndex to Update</h3>
+          <p>Call the setter function to update state and trigger a re-render:</p>
+          <pre style={{ 
+            background: '#f5f5f5', 
+            padding: 12, 
+            borderRadius: 6, 
+            color: '#1f2328',
+            fontFamily: 'Fira Mono, Consolas, monospace',
+            fontSize: 14,
+            lineHeight: 1.6,
+            margin: '12px 0'
+          }}>
+{`setIndex(index + 1);`}
+          </pre>
+          <p style={{ marginTop: 12, color: '#666' }}>
+            This updates the state, triggers a re-render, and the component displays the new value!
+          </p>
+        </div>
+
+        <div className="callout success">
+          <span className="callout-icon">✓</span>
+          <div>
+            <strong>The Key Difference:</strong> When you call <code className="inline-code">setIndex()</code>, 
+            React knows something changed and automatically re-renders your component with the new value.
+          </div>
+        </div>
+      </section>
+
       <section className="section">
         <h2 className="section-title">Why Can't We Just Use Normal Variables?</h2>
         <p className="section-description">
@@ -235,57 +342,6 @@ export default function App() {
         </div>
       </section>
 
-      <section className="section">
-        <h2 className="section-title">UI = f(State)</h2>
-        <p className="section-description">
-          This is the core mental model of React. Your <strong>UI is a function of your state</strong>. 
-          Given the same state, you'll always get the same UI.
-        </p>
-
-        <div className="comparison-grid">
-          <div className="comparison-item">
-            <span className="comparison-label">The Formula</span>
-            <div style={{fontSize: 24, textAlign: 'center', padding: 20}}>
-              <strong>UI = f(State)</strong>
-            </div>
-            <p style={{color: '#666', textAlign: 'center'}}>
-              "The UI is determined by the current state"
-            </p>
-          </div>
-          <div className="comparison-item">
-            <span className="comparison-label">In Practice</span>
-            <p>You don't manipulate the DOM directly. Instead:</p>
-            <ol style={{paddingLeft: 20}}>
-              <li>Define what state you need</li>
-              <li>Describe how UI looks for any state</li>
-              <li>Update state, React updates UI ✨</li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <h2 className="section-title">Multiple Pieces of State</h2>
-        <p className="section-description">
-          You can use <code className="inline-code">useState</code> multiple times in a single component!
-        </p>
-
-        <CodePlayground 
-          files={multipleStateExample} 
-          title="Multiple useState calls"
-        />
-      </section>
-
-      <section className="section">
-        <div className="key-takeaway">
-          <div className="key-takeaway-title">🎯 Key Takeaway</div>
-          <p>
-            <strong>State is data that changes over time.</strong> Use <code className="inline-code">useState</code> 
-            to create state variables. When you call the setter function, React re-renders the component 
-            and the UI updates automatically. Never mutate state directly!
-          </p>
-        </div>
-      </section>
     </div>
   )
 }

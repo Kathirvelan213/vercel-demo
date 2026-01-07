@@ -6,50 +6,18 @@ function LogicControlTab() {
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [hasUnreadMessages, setHasUnreadMessages] = useState(true);
 
   return (
     <div style={{ padding: 20, fontFamily: 'system-ui' }}>
-      <h1>Conditional Rendering with &&</h1>
-      
-      <div style={{ marginBottom: 20 }}>
-        <label>
-          <input
-            type="checkbox"
-            checked={isLoggedIn}
-            onChange={(e) => setIsLoggedIn(e.target.checked)}
-          />
-          {' '}Logged In
-        </label>
-        <br />
-        <label>
-          <input
-            type="checkbox"
-            checked={hasUnreadMessages}
-            onChange={(e) => setHasUnreadMessages(e.target.checked)}
-          />
-          {' '}Has Unread Messages
-        </label>
-      </div>
+      <button 
+        onClick={() => setIsLoggedIn(!isLoggedIn)}
+        style={{ padding: '8px 16px', marginBottom: 20 }}
+      >
+        {isLoggedIn ? 'Log Out' : 'Log In'}
+      </button>
 
-      <div style={{ 
-        padding: 20, 
-        background: '#f8f9fa', 
-        borderRadius: 8 
-      }}>
-        {/* Only shows if isLoggedIn is true */}
-        {isLoggedIn && <p>✅ Welcome back, user!</p>}
-        
-        {/* Only shows if BOTH are true */}
-        {isLoggedIn && hasUnreadMessages && (
-          <p style={{ color: '#fa5252' }}>
-            📬 You have unread messages!
-          </p>
-        )}
-        
-        {/* Shows if NOT logged in */}
-        {!isLoggedIn && <p>👋 Please log in</p>}
-      </div>
+      {isLoggedIn && <p>Welcome back!</p>}
+      {!isLoggedIn && <p>Please log in</p>}
     </div>
   );
 }`,
@@ -97,7 +65,7 @@ export default function App() {
           borderRadius: 8,
           marginTop: 16 
         }}>
-          🌙 Dark mode content
+          Dark mode content
         </div>
       ) : (
         <div style={{ 
@@ -106,7 +74,7 @@ export default function App() {
           borderRadius: 8,
           marginTop: 16 
         }}>
-          ☀️ Light mode content
+          Light mode content
         </div>
       )}
     </div>
@@ -163,76 +131,7 @@ export default function App() {
     </div>
   );
 }`,
-  }
-
-  const keyImportanceExample = {
-    '/App.js': `import { useState } from 'react';
-
-export default function App() {
-  const [items, setItems] = useState([
-    { id: 'a', name: 'Apple' },
-    { id: 'b', name: 'Banana' },
-    { id: 'c', name: 'Cherry' },
-  ]);
-
-  const addItem = () => {
-    const newItem = { 
-      id: Date.now().toString(), 
-      name: 'New Item ' + (items.length + 1) 
-    };
-    // Add to beginning of list
-    setItems([newItem, ...items]);
-  };
-
-  const removeItem = (id) => {
-    setItems(items.filter(item => item.id !== id));
-  };
-
-  return (
-    <div style={{ padding: 20, fontFamily: 'system-ui' }}>
-      <h1>Why Keys Matter</h1>
-      
-      <button 
-        onClick={addItem}
-        style={{ 
-          padding: '8px 16px', 
-          marginBottom: 16,
-          cursor: 'pointer' 
-        }}
-      >
-        ➕ Add Item at Top
-      </button>
-
-      <div>
-        {items.map(item => (
-          <div 
-            key={item.id}  // Unique, stable key!
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: 8,
-              margin: '4px 0',
-              background: '#f8f9fa',
-              borderRadius: 4
-            }}
-          >
-            <input 
-              defaultValue={item.name}
-              style={{ padding: 4, flex: 1 }}
-            />
-            <button onClick={() => removeItem(item.id)}>🗑️</button>
-          </div>
-        ))}
-      </div>
-
-      <p style={{ color: '#666', fontSize: 14, marginTop: 16 }}>
-        💡 Try typing in the inputs, then add a new item.
-        The key ensures React tracks which input belongs to which item!
-      </p>
-    </div>
-  );
-}`,
+  
   }
 
   return (
@@ -310,28 +209,6 @@ export default function App() {
             <strong>Don't forget the key prop!</strong> Every item in a list needs a unique 
             <code className="inline-code">key</code> prop. Use IDs, not array indices!
           </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <h2 className="section-title">Why Keys Matter</h2>
-        <p className="section-description">
-          Keys help React identify which items have changed, been added, or removed. 
-          Without proper keys, React can get confused and cause bugs!
-        </p>
-
-        <CodePlayground 
-          files={keyImportanceExample} 
-          title="Keys in action"
-        />
-
-        <div className="concept-card warning">
-          <h3>Key Rules</h3>
-          <ul className="feature-list">
-            <li><strong>DO:</strong> Use unique, stable IDs from your data</li>
-            <li><strong>DON'T:</strong> Use array index as key (except for static lists)</li>
-            <li><strong>DON'T:</strong> Generate keys with Math.random()</li>
-          </ul>
         </div>
       </section>
 
