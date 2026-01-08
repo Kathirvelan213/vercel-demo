@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import TabNavigation from './components/TabNavigation'
+import WelcomeTab from './tabs/WelcomeTab'
 import SetupTab from './tabs/SetupTab'
 import WhyReactTab from './tabs/WhyReactTab'
 import JSXComponentsTab from './tabs/JSXComponentsTab'
@@ -10,6 +11,7 @@ import EffectsTab from './tabs/EffectsTab'
 import './App.css'
 
 const tabs = [
+  { id: 'welcome', label: 'Welcome', component: WelcomeTab, isWelcome: true },
   { id: 'setup', label: 'Setup', component: SetupTab },
   { id: 'why', label: 'The "Why"', component: WhyReactTab },
   { id: 'jsx', label: 'JSX & Components', component: JSXComponentsTab },
@@ -20,25 +22,77 @@ const tabs = [
 ]
 
 function App() {
-  const [activeTab, setActiveTab] = useState('setup')
+  const [activeTab, setActiveTab] = useState('welcome')
+  const [headerVisible, setHeaderVisible] = useState(false)
+  const lastScrollY = useRef(0)
+  const isWelcomeTab = activeTab === 'welcome'
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
+      if (isWelcomeTab) {
+        // On welcome tab: show header when scrolling up or past threshold
+        if (currentScrollY < lastScrollY.current || currentScrollY > 100) {
+          setHeaderVisible(true)
+        } else if (currentScrollY <= 50) {
+          setHeaderVisible(false)
+        }
+      } else {
+        // On other tabs: always show header
+        setHeaderVisible(true)
+      }
+      
+      lastScrollY.current = currentScrollY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    // Set initial state
+    if (!isWelcomeTab) {
+      setHeaderVisible(true)
+    } else {
+      setHeaderVisible(false)
+    }
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isWelcomeTab])
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (tabId !== 'welcome') {
+      setHeaderVisible(true)
+    }
+  }
+
+  const handleGetStarted = () => {
+    handleTabChange('setup')
+  }
 
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || SetupTab
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1 className="app-title">Learn React ⚛️</h1>
-        <p className="app-subtitle">An interactive journey through React fundamentals</p>
-      </header>
+    <div className={`app-container ${isWelcomeTab ? 'welcome-active' : ''}`}>
+      <div className={`app-chrome ${headerVisible ? 'visible' : 'hidden'}`}>
+        <header className="app-header">
+          <h1 className="app-title">Learn React ⚛️</h1>
+          <p className="app-subtitle">An interactive journey through React fundamentals</p>
+        </header>
 
-      <TabNavigation 
-        tabs={tabs} 
-        activeTab={activeTab} 
-        onTabChange={setActiveTab} 
-      />
+        <TabNavigation 
+          tabs={tabs} 
+          activeTab={activeTab} 
+          onTabChange={handleTabChange} 
+        />
+      </div>
 
-      <main className="tab-content">
-        <ActiveComponent />
+      <main className={`tab-content ${isWelcomeTab ? 'welcome-content-main' : ''}`}>
+        {isWelcomeTab ? (
+          <ActiveComponent onGetStarted={handleGetStarted} />
+        ) : (
+          <ActiveComponent />
+        )}
       </main>
     </div>
   )
