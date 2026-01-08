@@ -113,6 +113,19 @@ export default function App() {
 
   return (
     <div>
+                      <div style={{ marginBottom: 32 ,justifyItems:'center'}}>
+          <img 
+            src="/6.jpg" 
+            alt="React render and commit cycle diagram" 
+            style={{ 
+              display:'flex',
+              justifyItems: 'center',
+              maxWidth: '59%', 
+              borderRadius: 12, 
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)' 
+            }}
+          />
+        </div>
       {/* Render and Commit Cycle Intro */}
       <section className="section">
         <h2 className="section-title">How React Updates the Screen</h2>

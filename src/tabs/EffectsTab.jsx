@@ -260,6 +260,19 @@ export default function App() {
           </p>
         </div>
       </section>
+                      <div style={{ marginBottom: 32 ,justifyItems:'center'}}>
+          <img 
+            src="/4.jpg" 
+            alt="React render and commit cycle diagram" 
+            style={{ 
+              display:'flex',
+              justifyItems: 'center',
+              maxWidth: '59%', 
+              borderRadius: 12, 
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)' 
+            }}
+          />
+        </div>
     </div>
   )
 }

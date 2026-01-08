@@ -280,6 +280,20 @@ function JSXComponentsTab() {
         </div>
       </section>
 
+        <div style={{ marginBottom: 32 ,justifyItems:'center'}}>
+          <img 
+            src="/1.png" 
+            alt="React render and commit cycle diagram" 
+            style={{ 
+              display:'flex',
+              justifyItems: 'center',
+              maxWidth: '59%', 
+              borderRadius: 12, 
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)' 
+            }}
+          />
+        </div>
+
       {/* JSX: Putting markup into JavaScript visual section */}
       <section className="section" style={{ marginBottom: 40 }}>
         <h2 className="section-title">JSX: Putting markup into JavaScript</h2>

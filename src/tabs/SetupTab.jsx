@@ -1,6 +1,7 @@
 function SetupTab() {
   return (
     <div>
+
       <section className="section">
         <h2 className="section-title">What is React?</h2>
         <p className="section-description">
@@ -8,7 +9,19 @@ function SetupTab() {
           It makes it easy to create interactive, dynamic web applications by managing how your app's data and UI stay in sync.
         </p>
       </section>
-
+                <div style={{ marginBottom: 32 ,justifyItems:'center'}}>
+          <img 
+            src="/3.jpg" 
+            alt="React render and commit cycle diagram" 
+            style={{ 
+              display:'flex',
+              justifyItems: 'center',
+              maxWidth: '59%', 
+              borderRadius: 12, 
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)' 
+            }}
+          />
+        </div>
       <section className="section">
         <h2 className="section-title">What is npm?</h2>
         <p className="section-description">
